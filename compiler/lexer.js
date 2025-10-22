@@ -61,36 +61,37 @@ export function tokenize(src) {
   }
 
   while (itter < src.length) {
-    if (c() === "(") {
-      addAndInc(c(), "OpenParen");
-    } else if (c() === ")") {
-      addAndInc(c(), "CloseParen");
+    const char = c();
+    if (char === "(") {
+      addAndInc(char, "OpenParen");
+    } else if (char === ")") {
+      addAndInc(char, "CloseParen");
     } else if (
-      c() === "+" ||
-      c() === "-" ||
-      c() === "*" ||
-      c() === "/" ||
-      c() === "%"
+      char === "+" ||
+      char === "-" ||
+      char === "*" ||
+      char === "/" ||
+      char === "%"
     ) {
-      addAndInc(c(), "BinaryOperator");
-    } else if (c() === "=") {
-      addAndInc(c(), "Equals");
-    } else if (c() === ".") {
+      addAndInc(char, "BinaryOperator");
+    } else if (char === "=") {
+      addAndInc(char, "Equals");
+    } else if (char === ".") {
       addAndInc(".", "Dot");
     } else {
-      if (isNum(c())) {
-        let num = c();
+      if (isNum(char)) {
+        let num = char;
         itter++;
-        while (itter < src.length && isNum(c())) {
-          num = num + c();
+        while (itter < src.length && isNum(char)) {
+          num = num + char;
           itter++;
         }
         add(num, "Number");
-      } else if (isAlpha(c())) {
-        let str = c();
+      } else if (isAlpha(char)) {
+        let str = char;
         itter++;
-        while (itter < src.length && isAlphaNum(c())) {
-          str += c();
+        while (itter < src.length && isAlphaNum(char)) {
+          str += char;
           itter++;
         }
         const reserved = KEYWORDS[str];
@@ -99,11 +100,11 @@ export function tokenize(src) {
         } else {
           add(str, "Keyword");
         }
-      } else if (skippable(c())) {
+      } else if (skippable(char)) {
         itter++;
       } else {
         console.log(
-          `unrecognized character: ${c()} found in source at position: ${itter}`
+          `unrecognized character: ${char} found in source at position: ${itter}`
         );
         return tokens;
       }
@@ -113,10 +114,11 @@ export function tokenize(src) {
   return tokens;
 }
 
-// console.log(tokenize("+ - * / 123 = alpha"));
-// console.log(tokenize("alph"));
-console.log(/[a-zA-Z0-9_$]/.test(" "));
-const source = await Deno.readTextFile("test.txt");
-for (const token of tokenize(source)) {
-  console.log(token);
-}
+// const testFile = "test.txt"
+// // console.log(tokenize("+ - * / 123 = alpha"));
+// // console.log(tokenize("alph"));
+// console.log(/[a-zA-Z0-9_$]/.test(" "));
+// const source = await Bun.file(testFile).text();
+// for (const token of tokenize(source)) {
+//   console.log(token);
+// }

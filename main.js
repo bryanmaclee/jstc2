@@ -6,12 +6,13 @@ function repl() {
   const parser = Parser;
   console.log("\nRepl v0.1");
 
+  const word = process.argv;
   // Continue Repl Until User Stops Or Types `exit`
   while (true) {
-    const input = prompt("> ");
+    const input = prompt(`> `);
     // Check for no user input or exit keyword.
     if (!input || input.includes("exit")) {
-      Deno.exit(1);
+      process.exit(1);
     }
 
     // Produce AST From sourc-code
