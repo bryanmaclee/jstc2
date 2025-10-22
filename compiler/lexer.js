@@ -46,11 +46,13 @@ export function Token(value, type) {
 export function tokenize(src) {
   const tokens = [];
   let itter = 0;
+
   function c() {
     return src[itter];
   }
+
   function addAndInc(val, tok) {
-    tokens.push(new Token(val, TokenType.indexOf(tok)));
+    add(val, tok)
     itter++;
   }
 
@@ -107,6 +109,7 @@ export function tokenize(src) {
       }
     }
   }
+  add("EOF", 'EOF')
   return tokens;
 }
 

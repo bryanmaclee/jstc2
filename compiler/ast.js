@@ -2,7 +2,7 @@ export function stmt(nodeType) {
   return nodeType;
 }
 
-export function Program(stmt) {
+export function Program() {
   return {
     kind: stmt("Program"),
     body: [],
