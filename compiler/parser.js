@@ -34,14 +34,14 @@ export const Parser = {
       const tk = tokens[i].type;
 
       switch (tk) {
-        case 1:
-          return { kind: TokenType[1], symbol: eat().value };
-        case 0:
+        case 'Identifier':
+          return { kind: 'Identifier', symbol: eat().value };
+        case "Number":
           return {
             kind: "NumericLiteral",
             value: parseFloat(eat().value),
           };
-        case 9:
+        case "EOF":
           return {
             kind: "EndOfFile",
             value: eat().value,

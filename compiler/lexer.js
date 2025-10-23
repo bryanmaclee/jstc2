@@ -1,3 +1,5 @@
+// possibly useless////////////////////
+
 export const TokenType = [
   "Number",
   "Identifier",
@@ -14,6 +16,8 @@ export const TokenType = [
 const KEYWORDS = {
   let: TokenType.indexOf("Let"),
 };
+
+////////////////////////////////
 
 function isAlpha(src) {
   const rx = /[a-zA-Z]/;
@@ -57,7 +61,7 @@ export function tokenize(src) {
   }
 
   function add(val, tok) {
-    tokens.push(new Token(val, TokenType.indexOf(tok)));
+    tokens.push(new Token(val, tok));
   }
 
   while (itter < src.length) {
@@ -82,16 +86,17 @@ export function tokenize(src) {
       if (isNum(char)) {
         let num = char;
         itter++;
-        while (itter < src.length && isNum(char)) {
-          num = num + char;
+        while (itter < src.length && (isNum(c()) || c() === '.')) {
+          num = num + c();
           itter++;
         }
+        console.log(`the nume is ${num}`)
         add(num, "Number");
-      } else if (isAlpha(char)) {
+      } else if (isAlpha(c())) {
         let str = char;
         itter++;
-        while (itter < src.length && isAlphaNum(char)) {
-          str += char;
+        while (itter < src.length && isAlphaNum(c())) {
+          str += c();
           itter++;
         }
         const reserved = KEYWORDS[str];
@@ -111,12 +116,13 @@ export function tokenize(src) {
     }
   }
   add("EOF", 'EOF')
+  console.log(tokens)
   return tokens;
 }
 
 // const testFile = "test.txt"
-// // console.log(tokenize("+ - * / 123 = alpha"));
-// // console.log(tokenize("alph"));
+// console.log(tokenize("+ - * / 123 = alpha"));
+// console.log(tokenize("alph"));
 // console.log(/[a-zA-Z0-9_$]/.test(" "));
 // const source = await Bun.file(testFile).text();
 // for (const token of tokenize(source)) {
