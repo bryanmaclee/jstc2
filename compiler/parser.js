@@ -11,6 +11,7 @@ import { tokenize, Token, TokenType } from "./lexer.js";
 export const Parser = {
   produceAST(sourceCode) {
     const tokens = tokenize(sourceCode);
+    if (tokens[tokens.length-1].type !== `EOF`) return "no file";
     const program = Program();
     let it = 0;
     while (it < tokens.length) {
@@ -19,36 +20,58 @@ export const Parser = {
 
     function eat(tk) {
       it++;
-      return tokens[it - 1];
+      return tokens[it - 1].value;
     }
 
-    function parseStmt(i) {
-      return parseExpr(i);
+    function at(tk){
+      return tokens[it];
     }
 
-    function parseExpr(i) {
-      return parsePrimaryExpr(i);
+    function parseStmt() {
+      return parseExpr();
     }
 
-    function parsePrimaryExpr(i) {
-      const tk = tokens[i].type;
+    function parseExpr() {
+      return parsePrimaryExpr();
+    }
+    
+    function parseAdditiveExpr(){
+      const left = parsePrimaryExpr()
+      while (at() === "+" || at() === "-"){
+        const opperator = eat();
+        const right = parsePrimaryExpr();
+      }
+    }
+
+    function parsePrimaryExpr() {
+      const tk = tokens[it].type;
 
       switch (tk) {
         case 'Identifier':
-          return { kind: 'Identifier', symbol: eat().value };
+          return { kind: 'Identifier', symbol: eat() };
         case "Number":
           return {
             kind: "NumericLiteral",
-            value: parseFloat(eat().value),
+            value: parseFloat(eat()),
           };
+        case "Equals":
+          return {
+            kind: tk,
+            value: eat(),
+          };
+          case "SemiColon":
+            return {
+              kind: tk,
+              value: eat(),
+            }
         case "EOF":
           return {
             kind: "EndOfFile",
-            value: eat().value,
+            value: eat(),
           };
         default:
           it = tokens.length;
-          console.error(`parser error: Unexpected token ${tokens[i].value}`);
+          console.error(`parser error: Unexpected token ${eat()}`);
       }
     }
     return program;

@@ -1,6 +1,8 @@
 // possibly useless////////////////////
 
 export const TokenType = [
+  "Null",
+  "SemiColon",
   "Number",
   "Identifier",
   "Equals",
@@ -15,9 +17,16 @@ export const TokenType = [
 
 const KEYWORDS = {
   let: TokenType.indexOf("Let"),
+  null: TokenType.indexOf("Null")
 };
 
 ////////////////////////////////
+
+const Keywords = {
+  "let": "Variable Declaration",
+  "const": "Constant declaration",
+  "null": "No Value"
+}
 
 function isAlpha(src) {
   const rx = /[a-zA-Z]/;
@@ -70,6 +79,8 @@ export function tokenize(src) {
       addAndInc(char, "OpenParen");
     } else if (char === ")") {
       addAndInc(char, "CloseParen");
+    } else if (char === ';') {
+      addAndInc(char, "SemiColon")
     } else if (
       char === "+" ||
       char === "-" ||
@@ -90,7 +101,7 @@ export function tokenize(src) {
           num = num + c();
           itter++;
         }
-        console.log(`the nume is ${num}`)
+        // console.log(`the nume is ${num}`)
         add(num, "Number");
       } else if (isAlpha(c())) {
         let str = char;
@@ -109,14 +120,14 @@ export function tokenize(src) {
         itter++;
       } else {
         console.log(
-          `unrecognized character: ${char} found in source at position: ${itter}`
+          `Lexer Error:\nunrecognized character: ${char} found in source at position: ${itter}`
         );
         return tokens;
       }
     }
   }
   add("EOF", 'EOF')
-  console.log(tokens)
+  // console.log(tokens)
   return tokens;
 }
 
