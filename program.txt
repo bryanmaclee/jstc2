@@ -1,0 +1,41 @@
+{
+  "kind": "Program",
+  "body": [
+    {
+      "kind": "Identifier",
+      "symbol": "const"
+    },
+    {
+      "kind": "Identifier",
+      "symbol": "a"
+    },
+    {
+      "kind": "Equals",
+      "value": "="
+    },
+    {
+      "kind": "BinaryExpr",
+      "left": {
+        "kind": "BinaryExpr",
+        "left": {
+          "kind": "NumericLiteral",
+          "value": 45.3
+        },
+        "right": {
+          "kind": "NumericLiteral",
+          "value": 3
+        },
+        "operator": "+"
+      },
+      "right": {
+        "kind": "NumericLiteral",
+        "value": 1.3
+      },
+      "operator": "-"
+    },
+    {
+      "kind": "SemiColon",
+      "value": ";"
+    }
+  ]
+}

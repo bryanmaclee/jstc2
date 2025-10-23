@@ -11,11 +11,11 @@ export function Program() {
 
 export function Expr() {}
 
-export function BinaryExpr(operator) {
+export function BinaryExpr(operator,left, right) {
   return {
     kind: stmt("BinaryExpr"),
-    left: Expr(),
-    right: Expr(),
+    left,
+    right,
     operator,
   };
 }
