@@ -2,6 +2,7 @@ import {Parser} from "./compiler/parser.js";
 
 const testFile = "test.txt";
 const Prog = "./program.txt"
+const lex = "./lexed.txt";
 const source = await Bun.file(testFile).text();
 repl();
 

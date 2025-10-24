@@ -16,22 +16,42 @@
     {
       "kind": "BinaryExpr",
       "left": {
+        "kind": "NumericLiteral",
+        "value": 45.3
+      },
+      "right": {
         "kind": "BinaryExpr",
         "left": {
           "kind": "NumericLiteral",
-          "value": 45.3
+          "value": 3
         },
         "right": {
           "kind": "NumericLiteral",
-          "value": 3
+          "value": 2
         },
         "operator": "+"
       },
-      "right": {
-        "kind": "NumericLiteral",
-        "value": 1.3
-      },
-      "operator": "-"
+      "operator": "*"
+    },
+    {
+      "kind": "SemiColon",
+      "value": ";"
+    },
+    {
+      "kind": "Identifier",
+      "symbol": "const"
+    },
+    {
+      "kind": "Identifier",
+      "symbol": "b"
+    },
+    {
+      "kind": "Equals",
+      "value": "="
+    },
+    {
+      "kind": "NullLiteral",
+      "value": "null"
     },
     {
       "kind": "SemiColon",

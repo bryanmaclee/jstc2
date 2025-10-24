@@ -20,6 +20,13 @@ export function BinaryExpr(operator,left, right) {
   };
 }
 
+export function NullLiteral(){
+  return {
+    kind: "NullLiteral",
+    value: "null",
+  }
+}
+
 export function Identifier(symbol){
   return {
     kind: "Identifier",
@@ -30,6 +37,6 @@ export function Identifier(symbol){
 export function NumericLiteral(value){
   return {
     kind: "NumericLiteral",
-    value
+    value,
   }
 }
