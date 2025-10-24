@@ -1,23 +1,16 @@
-import { NullVal, NumberVal, RuntimeVal } from "./values.ts";
-import { BinaryExpr, NumericLiteral, Program, Stmt } from "../frontend/ast.ts";
+// import { NullVal, NumberVal, RuntimeVal } from "./values.js";
+// import { BinaryExpr, NumericLiteral, Program, Stmt } from "../frontend/ast.js";
 
-function eval_program(program: Program): RuntimeVal {
-  let lastEvaluated: RuntimeVal = { type: "null", value: "null" } as NullVal;
+function eval_program(program) {
+  let lastEvaluated = { type: "null", value: "null" };
   for (const statement of program.body) {
     lastEvaluated = evaluate(statement);
   }
   return lastEvaluated;
 }
 
-/**
- * Evaulate pure numeric operations with binary operators.
- */
-function eval_numeric_binary_expr(
-  lhs: NumberVal,
-  rhs: NumberVal,
-  operator: string,
-): NumberVal {
-  let result: number;
+function eval_numeric_binary_expr(lhs, rhs, operator) {
+  let result;
   if (operator == "+") {
     result = lhs.value + rhs.value;
   } else if (operator == "-") {
@@ -34,46 +27,48 @@ function eval_numeric_binary_expr(
   return { value: result, type: "number" };
 }
 
-/**
- * Evaulates expressions following the binary operation type.
- */
-function eval_binary_expr(binop: BinaryExpr): RuntimeVal {
+function eval_binary_expr(binop) {
   const lhs = evaluate(binop.left);
   const rhs = evaluate(binop.right);
 
-  // Only currently support numeric operations
   if (lhs.type == "number" && rhs.type == "number") {
-    return eval_numeric_binary_expr(
-      lhs as NumberVal,
-      rhs as NumberVal,
-      binop.operator,
-    );
+    return eval_numeric_binary_expr(lhs, rhs, binop.operator);
   }
 
-  // One or both are NULL
-  return { type: "null", value: "null" } as NullVal;
+  return { type: "null", value: "null" };
 }
 
-export function evaluate(astNode: Stmt): RuntimeVal {
+function eval_keyword(kw) {
+  return kw;
+}
+
+function eval_identifier(id){
+  return id;
+}
+
+export function evaluate(astNode) {
   switch (astNode.kind) {
+    case "Keyword":
+      return eval_keyword(astNode);
+    case "Identifier":
+      return eval_identifier(astNode);
     case "NumericLiteral":
       return {
-        value: ((astNode as NumericLiteral).value),
+        value: astNode.value,
         type: "number",
-      } as NumberVal;
+      };
     case "NullLiteral":
-      return { value: "null", type: "null" } as NullVal;
+      return { value: "null", type: "null" };
     case "BinaryExpr":
-      return eval_binary_expr(astNode as BinaryExpr);
+      return eval_binary_expr(astNode);
     case "Program":
-      return eval_program(astNode as Program);
+      return eval_program(astNode);
 
-    // Handle unimplimented ast types as error.
     default:
       console.error(
         "This AST Node has not yet been setup for interpretation.",
-        astNode,
+        astNode
       );
-      Deno.exit(0);
+      process.exit(0);
   }
 }

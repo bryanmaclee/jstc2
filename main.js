@@ -1,4 +1,5 @@
 import {Parser} from "./compiler/parser.js";
+import { evaluate } from "./runtime/interpreter.js";
 
 const testFile = "test.txt";
 const Prog = "./program.txt"
@@ -15,6 +16,8 @@ async function repl() {
     console.log(`the source is: ${source}`)
     console.log(program)
     await Bun.write(Prog, JSON.stringify(program, null, 2));
+    const result = evaluate(program)
+    console.log(result);
     return
   }
   while (true) {
@@ -24,7 +27,11 @@ async function repl() {
       return;
     }
 
-    const program = parser(input);
+    const program = Parser(input);
     console.log(program);
+
+    const result = evaluate(program)
+    console.log(result);
+    
   }
 }
