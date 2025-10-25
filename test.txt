@@ -1,2 +1,2 @@
-const a = 45.3 * (3 + 2);
+let a = 45.3 * (3 + 2);
 const b = null;

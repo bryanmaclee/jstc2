@@ -2,8 +2,8 @@
   "kind": "Program",
   "body": [
     {
-      "kind": "Identifier",
-      "symbol": "const"
+      "kind": "NullLiteral",
+      "value": "null"
     },
     {
       "kind": "Identifier",
