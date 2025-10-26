@@ -20,6 +20,14 @@ export function BinaryExpr(operator,left, right) {
   };
 }
 
+export function AssignmentExpr(assigne, value){
+  return {
+    kind: "AssignmentExpr",
+    assigne,
+    value
+  }
+}
+
 export function NullLiteral(){
   return {
     kind: "NullLiteral",
@@ -37,6 +45,15 @@ export function Identifier(symbol){
 export function NumericLiteral(value){
   return {
     kind: "NumericLiteral",
+    value,
+  }
+}
+
+export function varDeclaration(constant, identifier, value){
+  return {
+    kind: "VarDeclaration",
+    constant,
+    identifier,
     value,
   }
 }

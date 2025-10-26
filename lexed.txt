@@ -1,10 +1,6 @@
 [
   {
-    "value": "let",
-    "type": "Keyword"
-  },
-  {
-    "value": "a",
+    "value": "y",
     "type": "Identifier"
   },
   {
@@ -12,56 +8,8 @@
     "type": "Equals"
   },
   {
-    "value": "45.3",
+    "value": "4",
     "type": "Number"
-  },
-  {
-    "value": "*",
-    "type": "BinaryOperator"
-  },
-  {
-    "value": "(",
-    "type": "OpenParen"
-  },
-  {
-    "value": "3",
-    "type": "Number"
-  },
-  {
-    "value": "+",
-    "type": "BinaryOperator"
-  },
-  {
-    "value": "2",
-    "type": "Number"
-  },
-  {
-    "value": ")",
-    "type": "CloseParen"
-  },
-  {
-    "value": ";",
-    "type": "SemiColon"
-  },
-  {
-    "value": "const",
-    "type": "Identifier"
-  },
-  {
-    "value": "b",
-    "type": "Identifier"
-  },
-  {
-    "value": "=",
-    "type": "Equals"
-  },
-  {
-    "value": "null",
-    "type": "Keyword"
-  },
-  {
-    "value": ";",
-    "type": "SemiColon"
   },
   {
     "value": "EOF",

@@ -6,6 +6,8 @@ import {
   NumericLiteral,
   Identifier,
   NullLiteral,
+  varDeclaration,
+  AssignmentExpr,
 } from "./ast.js";
 import { tokenize, Token, TokenType } from "./lexer.js";
 
@@ -18,24 +20,17 @@ export function Parser(sc) {
   writeLex(tokens);
   let it = 0;
   function produceAST() {
-    // if (tokens[tokens.length - 1].type !== `EOF`) return "no file";
     const program = Program();
     function notEOF() {
-      // console.log("you yo you yo ", tokens[it].value !== "EOF");
-
       return tokens[it].value !== "EOF";
     }
     while (notEOF()) {
       program.body.push(parseStmt());
     }
-    // console.log(program);
-
     return program;
   }
 
   function eat() {
-    // console.log(tokens[it]);
-
     it++;
     return tokens[it - 1];
   }
@@ -53,23 +48,53 @@ export function Parser(sc) {
     return prev;
   }
   function parseStmt() {
-    return parseExpr();
+    switch (at()) {
+      case "let":
+      case "const":
+        return parseVarDeclaration();
+      default:
+        return parseExpr();
+    }
+  }
+
+  function parseVarDeclaration() {
+    const isConstant = eat().type === "Const";
+    const identifier = expect("Identifier", "expected identifier!").value;
+    if (at().type === "SemiColon") {
+      eat();
+      if (isConstant) {
+        console.error("must assing value to constant");
+      }
+      return varDeclaration(false, identifier, undefined);
+    }
+    expect("Equals", "need an equals here yo");
+    const val = parseExpr();
+    if (at() === ";") eat();
+    return varDeclaration(isConstant, identifier, val);
   }
 
   function parseExpr() {
-    return parseAdditiveExpr();
+    // return parseAdditiveExpr();
+    return parseAssignmentExpr();
+  }
+
+  function parseAssignmentExpr(){
+    const left = parseAdditiveExpr();
+
+    if (at().type === "Equals"){
+      eat();
+      const value = parseAssignmentExpr();
+      // return {value, assigne: left, kind: "AssignmentExpr" }
+      return AssignmentExpr(left, value)
+    }
+    return left;
   }
 
   function parseAdditiveExpr() {
-    // let left = parsePrimaryExpr();
     let left = parseMultiplicitiveExpr();
-    // console.log(left);
-
     while (at() === "+" || at() === "-") {
-      // console.log("we are in an additive expr");
       const opperator = eat().value;
       const right = parseMultiplicitiveExpr();
-
       left = BinaryExpr(opperator, left, right);
     }
     return left;
@@ -77,13 +102,9 @@ export function Parser(sc) {
 
   function parseMultiplicitiveExpr() {
     let left = parsePrimaryExpr();
-    // console.log(left);
-
     while (at() === "*" || at() === "/" || at() === "%") {
-      // console.log("we are in an additive expr");
       const opperator = eat().value;
       const right = parsePrimaryExpr();
-
       left = BinaryExpr(opperator, left, right);
     }
     return left;

@@ -17,15 +17,16 @@ export const TokenType = [
 
 const KEYWORDS = {
   let: TokenType.indexOf("Let"),
+  const: TokenType.indexOf("Const"),
   null: TokenType.indexOf("Null")
 };
 
 ////////////////////////////////
 
 const Keywords = {
-  "let": "Variable Declaration",
-  "const": "Constant declaration",
-  "null": "No Value"
+  "let": "Variable_Declaration",
+  "const": "Constant_declaration",
+  "null": "No_Value"
 }
 
 function isAlpha(src) {
@@ -91,6 +92,8 @@ export function tokenize(src) {
       addAndInc(char, "BinaryOperator");
     } else if (char === "=") {
       addAndInc(char, "Equals");
+    }else if (char === ";") {
+      addAndInc(char, "SemiColon")
     } else if (char === ".") {
       addAndInc(".", "Dot");
     } else {
