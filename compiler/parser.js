@@ -36,7 +36,7 @@ export function Parser(sc) {
   }
 
   function at() {
-    return tokens[it].value;
+    return tokens[it];
   }
 
   function expect(type, err) {
@@ -48,7 +48,7 @@ export function Parser(sc) {
     return prev;
   }
   function parseStmt() {
-    switch (at()) {
+    switch (at().value) {
       case "let":
       case "const":
         return parseVarDeclaration();
@@ -69,7 +69,7 @@ export function Parser(sc) {
     }
     expect("Equals", "need an equals here yo");
     const val = parseExpr();
-    if (at() === ";") eat();
+    if (at().value === ";") eat();
     return varDeclaration(isConstant, identifier, val);
   }
 
@@ -79,10 +79,13 @@ export function Parser(sc) {
   }
 
   function parseAssignmentExpr(){
+    console.log("parsing and assingment expr")
     const left = parseAdditiveExpr();
 
+    console.log(at().type)
     if (at().type === "Equals"){
       eat();
+      // console.log("this is dumb" , AssignmentExpr(left, value))
       const value = parseAssignmentExpr();
       // return {value, assigne: left, kind: "AssignmentExpr" }
       return AssignmentExpr(left, value)
@@ -92,7 +95,7 @@ export function Parser(sc) {
 
   function parseAdditiveExpr() {
     let left = parseMultiplicitiveExpr();
-    while (at() === "+" || at() === "-") {
+    while (at().value === "+" || at().value === "-") {
       const opperator = eat().value;
       const right = parseMultiplicitiveExpr();
       left = BinaryExpr(opperator, left, right);
@@ -102,7 +105,7 @@ export function Parser(sc) {
 
   function parseMultiplicitiveExpr() {
     let left = parsePrimaryExpr();
-    while (at() === "*" || at() === "/" || at() === "%") {
+    while (at().value === "*" || at().value === "/" || at().value === "%") {
       const opperator = eat().value;
       const right = parsePrimaryExpr();
       left = BinaryExpr(opperator, left, right);
@@ -126,11 +129,11 @@ export function Parser(sc) {
         const value = parseExpr();
         expect("CloseParen", "expected closing parenthase");
         return value;
-      case "Equals":
-        return {
-          kind: tk,
-          value: eat().value,
-        };
+      // case "Equals":
+      //   return {
+      //     kind: tk,
+      //     value: eat().value,
+      //   };
       case "SemiColon":
         return {
           kind: tk,

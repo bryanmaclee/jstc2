@@ -8,8 +8,8 @@
     "type": "Equals"
   },
   {
-    "value": "4",
-    "type": "Number"
+    "value": "x",
+    "type": "Identifier"
   },
   {
     "value": "EOF",

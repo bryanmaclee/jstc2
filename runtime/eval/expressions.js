@@ -34,12 +34,13 @@ export function eval_keyword(kw) {
 }
 
 export function eval_identifier(id, env) {
-  console.log(`evaluating ${id.symbol} in environment ${env}`);
+  console.log(`evaluating ${id.symbol} in environment ${JSON.stringify(env)}`);
   const val = env.lookupVar(id.symbol);
   return val;
 }
 
 export function eval_assignment(node, env){
+  console.log("evaluating an assignment expr")
   if (node.assigne.kind !== 'Identifier'){
     console.error(`invalid assignment ${JSON.stringify(node.assigne)}`)
   }
